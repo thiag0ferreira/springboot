@@ -1,5 +1,6 @@
 package com.example.carros.domain;
 
+import com.example.carros.domain.dto.CarroDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -13,26 +14,28 @@ public class CarroService {
     @Autowired
     private CarroRepository rep;
 
-    public Iterable<Carro> getCarros() {
-        return rep.findAll();
+    public List<CarroDTO> getCarros() {
+        List<Carro> carros = rep.findAll();
+
+        List<CarroDTO> list = new ArrayList<>();
+        for (Carro c : carros){
+            list.add(new CarroDTO(c));
+        }
+        return list;
     }
 
-    public Optional<Carro> getCarroById(Long id) {
-        return rep.findById(id);
+    public Optional<CarroDTO> getCarroById(Long id) {
+        return rep.findById(id).map(CarroDTO::new);
     }
 
-    public List<Carro> getCarrosFake() {
-        List<Carro> carros = new ArrayList<>();
+    public List <CarroDTO> getCarroByTipo(String tipo) {
+        List<Carro> carros = rep.findAll();
 
-        carros.add(new Carro(1L, "Fusca"));
-        carros.add(new Carro(2L, "Palio"));
-        carros.add(new Carro(3L, "Uno"));
-
-        return carros;
-    }
-
-    public List <Carro> getCarroByTipo(String tipo) {
-        return rep.findByTipo(tipo);
+        List<CarroDTO> list = new ArrayList<>();
+        for (Carro c : carros){
+            list.add(new CarroDTO(c));
+        }
+        return list;
     }
 
     public Carro save(Carro carro) {
@@ -43,9 +46,9 @@ public class CarroService {
         Assert.notNull(id,"Não foi possível atualizar o registro");
 
         //Busca o carro no BD
-        Optional<Carro> optional = getCarroById(id);
+        Optional<CarroDTO> optional = getCarroById(id);
         if(optional.isPresent()) {
-            Carro db = optional.get();
+            CarroDTO db = optional.get();
             //Copiar as propriedades de Carro nome e tipo
             db.setNome(carro.getNome());
             db.setTipo(carro.getTipo());
@@ -62,8 +65,8 @@ public class CarroService {
     }
 
     public void delete(Long id) {
-        Optional<Carro> carro = getCarroById(id);
-        if(carro.isPresent()) {
+
+        if(getCarroById(id).isPresent()) {
             rep.deleteById(id);
         }
     }
