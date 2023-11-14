@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import static junit.framework.TestCase.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RunWith(SpringRunner.class)
@@ -49,7 +50,9 @@ public class CarrosApplicationTests {
 
 
     @Test
-    public void contextLoads() {
+    public void testLista() {
+        List<CarroDTO> carros = service.getCarros();
+        assertEquals(30, carros.size());
 
     }
 
