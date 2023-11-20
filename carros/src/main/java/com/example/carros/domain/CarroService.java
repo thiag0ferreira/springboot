@@ -44,13 +44,11 @@ public class CarroService {
     }
 
     public CarroDTO insert(Carro carro) {
-        Assert.isNull(carro.getId(), "Mão foi possivel inserir o registro");
-
-        return CarroDTO.create(rep.save(carro));
+        Assert.isNull(carro.getId(), "Não foi possivel inserir o registro");
+        return CarroDTO.create(this.save(carro));
     }
 
     public Carro save(Carro carro) {
-
         return rep.save(carro);
     }
 

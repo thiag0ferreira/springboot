@@ -6,9 +6,7 @@ import com.example.carros.domain.dto.CarroDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,13 +16,14 @@ public class CarrosController {
     @Autowired
     private CarroService service;
 
-    @GetMapping()
-    public ResponseEntity get() {
-        return ResponseEntity.ok(service.getCarros());
+    @PostMapping("/findAll")
+    public ResponseEntity<List<CarroDTO>> findAllCarros() {
+        List<CarroDTO> response = service.getCarros();
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity get(@PathVariable("id") Long id) {
+    public ResponseEntity<CarroDTO> getCarroById(@PathVariable("id") Long id) {
         Optional<CarroDTO> carro = service.getCarroById(id);
 
         if (carro.isPresent()) {
@@ -36,7 +35,7 @@ public class CarrosController {
     }
 
     @GetMapping("/tipo/{tipo}")
-    public ResponseEntity getCarrosByTipo(@PathVariable("tipo") String tipo) {
+    public ResponseEntity<List<CarroDTO>> getCarrosByTipo(@PathVariable("tipo") String tipo) {
         List<CarroDTO> carros = service.getCarroByTipo(tipo);
 
         return carros.isEmpty() ?
@@ -47,28 +46,20 @@ public class CarrosController {
 
 
     @PostMapping
-    public ResponseEntity post(@RequestBody Carro carro) {
-
-        CarroDTO c = service.insert(carro);
-
-        URI location = getUri(c.getId());
-        return ResponseEntity.badRequest().build();
-    }
-
-    private URI getUri(Long id) {
-        return ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-                .buildAndExpand(id).toUri();
+    public ResponseEntity<CarroDTO> saveCarro(@RequestBody Carro carro) {
+        CarroDTO carroSaved = service.insert(carro);
+        return ResponseEntity.ok(carroSaved);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity put(@PathVariable("id") Long id, @RequestBody Carro carro) {
+    public ResponseEntity<CarroDTO> put(@PathVariable("id") Long id, @RequestBody Carro carro) {
 
         carro.setId(id);
 
-        CarroDTO c = service.update(carro, id);
+        CarroDTO carroUpdated = service.update(carro, id);
 
-        return c != null ?
-                ResponseEntity.ok(c) :
+        return carroUpdated != null ?
+                ResponseEntity.ok(carroUpdated) :
                 ResponseEntity.notFound().build();
     }
 
