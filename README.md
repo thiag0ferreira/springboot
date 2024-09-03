@@ -2,7 +2,7 @@ Projeto funcionando:
 
 ![Descrição do GIF](https://github.com/thiag0ferreira/springboot/blob/master/apis.gif)
 
-Para o uso deste projeto é preciso ter o mySql e o Javainstalados na máquina.
+Para o uso deste projeto é preciso ter o mySql e o Java instalados na máquina.
 Siga os passos: 
 1. Conecte-se ao MySQL; mysql -u root -p
 2. Em seguida criar o scripty a baixo no seu sql:
