@@ -1,5 +1,6 @@
 Projeto funcionando:
 
+![Descrição do GIF](https://github.com/thiag0ferreira/springboot/blob/master/apis.gif)
 
 Para o uso deste projeto é preciso ter o mySql e o Javainstalados na máquina.
 Siga os passos: 
@@ -33,3 +34,6 @@ Tecnologias
 - Banco de Dados MySql
 - Lombok
 - API com swagger
+
+![Descrição da Imagem](https://github.com/thiag0ferreira/springboot/blob/master/mysql.png)
+
